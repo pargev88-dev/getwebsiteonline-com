@@ -19,6 +19,9 @@
   var form = document.getElementById('request-form');
   if (!form) return;
 
+  // The site is static (Netlify); the form posts to the Railway API backend.
+  var API_BASE = 'https://llmdirector-com-production.up.railway.app';
+
   var statusBox = document.getElementById('form-status');
   var submitBtn = form.querySelector('.submit-btn');
 
@@ -48,7 +51,7 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
-    fetch('/api/contact', {
+    fetch(API_BASE + '/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

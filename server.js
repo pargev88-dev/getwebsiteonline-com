@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
@@ -9,6 +10,26 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const DATA_DIR = path.join(__dirname, 'data');
 const SUBMISSIONS_FILE = path.join(DATA_DIR, 'submissions.jsonl');
+
+// The site is hosted on Netlify; this server only serves the API. Allow the
+// production frontend origins plus anything set via ALLOWED_ORIGINS env var.
+const DEFAULT_ALLOWED_ORIGINS = [
+  'https://llmdirector.com',
+  'https://www.llmdirector.com',
+  'http://localhost:3000',
+  'http://localhost:8888',
+];
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+  .concat(DEFAULT_ALLOWED_ORIGINS);
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // same-origin / non-browser requests
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  return /\.netlify\.app$/.test(new URL(origin).hostname);
+}
 
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
@@ -27,6 +48,19 @@ app.use(
         frameAncestors: ["'none'"],
       },
     },
+  })
+);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['POST'],
   })
 );
 

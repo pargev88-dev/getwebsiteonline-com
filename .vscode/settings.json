@@ -3,6 +3,26 @@
         "/^git config user\\.name \"pargev88-dev\"; git config user\\.email \"pargev88@gmail\\.com\"; git add \\.; git commit -m \"Initial LLMdirector website\"; gh repo create llmdirector-com --public --source=\\. --remote=origin --push$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^railway login; railway init; railway up --service=\"llmdirector-com\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway status; railway project list; railway service list$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway init --help; Write-Host '---'; railway service --help$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway up$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway domain$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }
