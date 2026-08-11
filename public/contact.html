@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Your Website — LLMdirector</title>
+  <meta name="description" content="Request a simple, professional website for your small business for $500. Fill out the form and we'll follow up with next steps." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="/" class="brand">
+        <span class="brand-mark">LD</span>
+        LLMdirector
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/contact.html" class="nav-cta active">Get Your Website</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" style="border-top: none; padding-bottom: 24px;">
+      <div class="container">
+        <span class="eyebrow">Get started</span>
+        <h1>Let's build your website</h1>
+        <p class="lead">Tell us a bit about your business. We'll follow up by email with next steps and a quick timeline.</p>
+      </div>
+    </section>
+
+    <section style="border-top: none;">
+      <div class="container">
+        <form id="request-form" class="form-card" novalidate>
+          <div class="form-row two-col">
+            <div>
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" maxlength="100" required />
+            </div>
+            <div>
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" maxlength="200" required />
+            </div>
+          </div>
+
+          <div class="form-row two-col">
+            <div>
+              <label for="business">Business Name *</label>
+              <input type="text" id="business" name="business" maxlength="150" required />
+            </div>
+            <div>
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" maxlength="30" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="pages">How many pages do you need?</label>
+            <select id="pages" name="pages">
+              <option value="1 page">1 page</option>
+              <option value="2 pages" selected>2 pages</option>
+              <option value="3 pages">3 pages</option>
+              <option value="Not sure">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="details">Tell us about your business *</label>
+            <textarea id="details" name="details" maxlength="3000" required
+              placeholder="What does your business do? What would you like on your site (menu, services, photos, hours, etc.)? Do you have a logo or existing branding?"></textarea>
+            <p class="field-hint">The more detail you share, the faster we can put together your site.</p>
+          </div>
+
+          <!-- Honeypot field: hidden from real users, helps catch bots -->
+          <div class="form-row honeypot-field" aria-hidden="true">
+            <label for="website">Leave this field blank</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn">Request My Website</button>
+
+          <div id="form-status" class="form-status" role="status"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>&copy; <span id="year"></span> LLMdirector.com</span>
+      <div class="footer-links">
+        <a href="/pricing.html">Pricing</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
