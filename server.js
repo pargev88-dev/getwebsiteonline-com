@@ -55,6 +55,7 @@ async function sendNotificationEmail(submission) {
       submission.details,
     ].join('\n'),
   });
+  console.log('Notification email sent to', CONTACT_TO_EMAIL, 'for submission from', submission.email);
 }
 
 // The site is hosted on Netlify; this server only serves the API. Allow the

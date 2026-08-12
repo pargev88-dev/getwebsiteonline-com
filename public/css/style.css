@@ -127,6 +127,24 @@ a:hover {
   text-decoration: none;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-phone {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.nav-phone:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .nav-toggle {
   display: none;
   background: none;
@@ -176,6 +194,16 @@ a:hover {
     width: 100%;
     text-align: center;
     margin: 10px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-phone {
+    font-size: 0;
+  }
+
+  .nav-phone span {
+    font-size: 1.1rem;
   }
 }
 

@@ -27,6 +27,32 @@
         "/^cd 'c:\\\\Users\\\\parge\\\\Desktop\\\\WebSite'; git add public/pricing\\.html; git commit -m \"Update extra page add-on price to \\$200\"; git push$/": {
             "approve": true,
             "matchCommandLine": true
-        }
+        },
+        "/^cd 'c:\\\\Users\\\\parge\\\\Desktop\\\\WebSite'; railway whoami; railway status$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway service$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway variables --set \"SMTP_HOST=smtp\\.zoho\\.com\" --set \"SMTP_PORT=587\" --set \"SMTP_SECURE=false\" --set \"SMTP_USER=support@exceluserform\\.com\" --set \"SMTP_FROM=support@exceluserform\\.com\" --set \"CONTACT_TO_EMAIL=support@exceluserform\\.com\" --skip-deploys$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway variables$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway logs --lines 500 \\| Select-String -Pattern \"email\\|smtp\\|contact\\|error\\|Error\\|fail\" -Context 1,1$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^railway logs --lines 500$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "git add": true,
+        "git commit": true
     }
 }
