@@ -23,6 +23,10 @@
         "/^railway domain$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^cd 'c:\\\\Users\\\\parge\\\\Desktop\\\\WebSite'; git add public/pricing\\.html; git commit -m \"Update extra page add-on price to \\$200\"; git push$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }

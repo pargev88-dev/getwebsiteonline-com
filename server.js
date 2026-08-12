@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,6 +11,51 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const DATA_DIR = path.join(__dirname, 'data');
 const SUBMISSIONS_FILE = path.join(DATA_DIR, 'submissions.jsonl');
+
+// Where new site requests get emailed. Not shown anywhere on the site itself.
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'support@exceluserform.com';
+
+// SMTP is optional: if unset, the form still works and submissions are still
+// saved to disk, but no notification email is sent.
+let mailTransporter = null;
+if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+  mailTransporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+} else {
+  console.warn('SMTP not configured; contact form notification emails will not be sent.');
+}
+
+// Strips CR/LF so untrusted input can't be used to inject extra email headers.
+function sanitizeHeaderValue(str) {
+  return String(str).replace(/[\r\n]+/g, ' ').trim();
+}
+
+async function sendNotificationEmail(submission) {
+  if (!mailTransporter) return;
+  await mailTransporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to: CONTACT_TO_EMAIL,
+    replyTo: submission.email,
+    subject: `New website request from ${sanitizeHeaderValue(submission.business)}`,
+    text: [
+      `Name: ${submission.name}`,
+      `Email: ${submission.email}`,
+      `Business: ${submission.business}`,
+      `Phone: ${submission.phone || '(not provided)'}`,
+      `Pages: ${submission.pages || '(not specified)'}`,
+      '',
+      'Details:',
+      submission.details,
+    ].join('\n'),
+  });
+}
 
 // The site is hosted on Netlify; this server only serves the API. Allow the
 // production frontend origins plus anything set via ALLOWED_ORIGINS env var.
@@ -91,7 +137,7 @@ function isNonEmptyString(value, maxLen) {
   return typeof value === 'string' && value.trim().length > 0 && value.trim().length <= maxLen;
 }
 
-app.post('/api/contact', contactLimiter, (req, res) => {
+app.post('/api/contact', contactLimiter, async (req, res) => {
   const body = req.body || {};
 
   // Honeypot field: real users never fill this in.
@@ -134,6 +180,19 @@ app.post('/api/contact', contactLimiter, (req, res) => {
   } catch (err) {
     console.error('Failed to persist submission:', err.message);
     return res.status(500).json({ ok: false, error: 'Something went wrong. Please try again.' });
+  }
+
+  try {
+    await sendNotificationEmail({
+      name: body.name.trim(),
+      email: body.email.trim(),
+      business: body.business.trim(),
+      phone: body.phone ? body.phone.trim() : '',
+      pages: (body.pages || '').toString().trim(),
+      details: body.details.trim(),
+    });
+  } catch (err) {
+    console.error('Failed to send notification email:', err.message);
   }
 
   return res.status(200).json({ ok: true });
