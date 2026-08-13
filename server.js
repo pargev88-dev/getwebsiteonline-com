@@ -61,8 +61,8 @@ async function sendNotificationEmail(submission) {
 // The site is hosted on Netlify; this server only serves the API. Allow the
 // production frontend origins plus anything set via ALLOWED_ORIGINS env var.
 const DEFAULT_ALLOWED_ORIGINS = [
-  'https://llmdirector.com',
-  'https://www.llmdirector.com',
+  'https://getwebsiteonline.com',
+  'https://www.getwebsiteonline.com',
   'http://localhost:3000',
   'http://localhost:8888',
 ];
@@ -204,5 +204,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`LLMdirector site running on port ${PORT}`);
+  console.log(`GetWebsiteOnline site running on port ${PORT}`);
 });

@@ -1,7 +1,7 @@
 {
-  "name": "llmdirector-website",
+  "name": "getwebsiteonline-website",
   "version": "1.0.0",
-  "description": "LLMdirector.com marketing site - request a website for your small business",
+  "description": "GetWebsiteOnline.com marketing site - request a website for your small business",
   "main": "server.js",
   "engines": {
     "node": ">=18.0.0"

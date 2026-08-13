@@ -20,7 +20,7 @@
   if (!form) return;
 
   // The site is static (Netlify); the form posts to the Railway API backend.
-  var API_BASE = 'https://llmdirector-com-production.up.railway.app';
+  var API_BASE = 'https://api.getwebsiteonline.com';
 
   var statusBox = document.getElementById('form-status');
   var submitBtn = form.querySelector('.submit-btn');
