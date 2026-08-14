@@ -452,6 +452,14 @@ section {
 }
 
 /* Right-to-left auto-scrolling strip of work cards. */
+.work-section {
+  padding-top: 32px;
+}
+
+.work-section .section-header {
+  margin-bottom: 28px;
+}
+
 .work-marquee {
   overflow: hidden;
   padding: 4px 0;
