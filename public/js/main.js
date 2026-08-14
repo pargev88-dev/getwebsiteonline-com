@@ -27,6 +27,20 @@ document.addEventListener(
   true
 );
 
+// Duplicate the marquee cards so the loop has no visible seam.
+(function () {
+  var track = document.querySelector('.work-track');
+  if (!track) return;
+
+  var cards = Array.prototype.slice.call(track.children);
+  cards.forEach(function (card) {
+    var clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    track.appendChild(clone);
+  });
+})();
+
 (function () {
   var form = document.getElementById('request-form');
   if (!form) return;

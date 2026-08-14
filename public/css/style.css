@@ -451,6 +451,49 @@ section {
   font-size: 0.95rem;
 }
 
+/* Right-to-left auto-scrolling strip of work cards. */
+.work-marquee {
+  overflow: hidden;
+  padding: 4px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.work-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: work-scroll 45s linear infinite;
+}
+
+.work-marquee:hover .work-track,
+.work-marquee:focus-within .work-track {
+  animation-play-state: paused;
+}
+
+.work-track .work-card {
+  flex: 0 0 min(340px, 78vw);
+}
+
+@keyframes work-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-marquee {
+    overflow-x: auto;
+  }
+
+  .work-track {
+    animation: none;
+  }
+}
+
 /* ---------- Steps ---------- */
 .steps {
   counter-reset: step;
