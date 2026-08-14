@@ -13,7 +13,7 @@ const DATA_DIR = path.join(__dirname, 'data');
 const SUBMISSIONS_FILE = path.join(DATA_DIR, 'submissions.jsonl');
 
 // Where new site requests get emailed. Not shown anywhere on the site itself.
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'support@exceluserform.com';
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'admin@getwebsiteonline.com';
 
 // SMTP is optional: if unset, the form still works and submissions are still
 // saved to disk, but no notification email is sent.
