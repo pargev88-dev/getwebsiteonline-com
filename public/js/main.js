@@ -15,6 +15,18 @@
   }
 })();
 
+// Drop missing portfolio screenshots so the letter placeholder shows instead of a broken image.
+document.addEventListener(
+  'error',
+  function (e) {
+    var el = e.target;
+    if (el && el.tagName === 'IMG' && el.parentElement && el.parentElement.classList.contains('work-thumb')) {
+      el.remove();
+    }
+  },
+  true
+);
+
 (function () {
   var form = document.getElementById('request-form');
   if (!form) return;
