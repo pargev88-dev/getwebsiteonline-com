@@ -629,6 +629,43 @@ textarea {
   overflow: hidden;
 }
 
+/* ---------- Layout utilities ---------- */
+/* CSP style-src is 'self' with no 'unsafe-inline', so one-off tweaks live here
+   instead of style="" attributes on individual elements. */
+.no-border-top {
+  border-top: none;
+}
+
+.section-tight {
+  padding-bottom: 24px;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.measure-480 {
+  max-width: 480px;
+}
+
+.measure-520 {
+  max-width: 520px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.muted-tight {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.thank-you-heading {
+  font-size: 2.4rem;
+  color: var(--text);
+}
+
 .form-status {
   margin-top: 20px;
   padding: 14px 16px;

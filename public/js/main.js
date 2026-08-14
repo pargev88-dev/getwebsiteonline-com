@@ -20,7 +20,9 @@
   if (!form) return;
 
   // The site is static (Netlify); the form posts to the Railway API backend.
-  var API_BASE = 'https://api.getwebsiteonline.com';
+  // Using the Railway-generated domain temporarily while api.getwebsiteonline.com's
+  // TLS certificate finishes provisioning.
+  var API_BASE = 'https://llmdirector-com-production.up.railway.app';
 
   var statusBox = document.getElementById('form-status');
   var submitBtn = form.querySelector('.submit-btn');
