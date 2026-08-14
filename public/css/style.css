@@ -133,6 +133,18 @@ a:hover {
   gap: 20px;
 }
 
+.nav-email {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.nav-email:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .nav-phone {
   color: var(--text);
   font-weight: 600;
@@ -194,6 +206,12 @@ a:hover {
     width: 100%;
     text-align: center;
     margin: 10px 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav-email {
+    display: none;
   }
 }
 
