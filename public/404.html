@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page Not Found — Get Website Online</title>
-  <meta name="robots" content="noindex" />
+  <meta name="description" content="That page couldn't be found. Head back to Get Website Online to see our work, pricing, and how to request a $300 small business website." />
+  <meta name="robots" content="noindex, follow" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header">
     <nav class="nav">
       <a href="/" class="brand">
@@ -29,10 +31,14 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <section class="error-page no-border-top">
       <h1>404</h1>
-      <p class="lead measure-480">We couldn't find that page.</p>
+      <p class="lead measure-480">We couldn't find that page. It may have moved or never existed.</p>
+      <p class="measure-480 muted-tight">
+        Try our <a href="/work.html">recent work</a>, <a href="/pricing.html">pricing</a>, or
+        <a href="/contact.html">request a website</a>.
+      </p>
       <a href="/" class="btn btn-primary mt-16">Back to Home</a>
     </section>
   </main>
