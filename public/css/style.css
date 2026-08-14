@@ -227,7 +227,7 @@ a:hover {
 
 /* ---------- Hero ---------- */
 .hero {
-  padding: 96px 0 72px;
+  padding: 48px 0 72px;
   text-align: center;
   background:
     radial-gradient(circle at 20% 20%, rgba(255, 122, 48, 0.12), transparent 40%),
