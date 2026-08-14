@@ -58,6 +58,66 @@ async function sendNotificationEmail(submission) {
   console.log('Notification email sent to', CONTACT_TO_EMAIL, 'for submission from', submission.email);
 }
 
+// Auto-reply to the person who submitted. Replying to it is how they send us
+// their logo and photos, so we don't need file uploads on the form.
+async function sendClientConfirmationEmail(submission) {
+  if (!mailTransporter) return;
+
+  const firstName = submission.name.split(' ')[0];
+  const lines = [
+    `Hi ${firstName},`,
+    '',
+    `Thanks for reaching out about a website for ${submission.business}. We've got your request and we'll follow up personally within one business day with next steps and a timeline.`,
+    '',
+    'To get started faster, just reply to this email with anything you already have:',
+    '',
+    '  - Your logo (any format is fine)',
+    '  - Photos of your business, work, team, or products',
+    '  - Business hours and address, if they should appear on the site',
+    '  - Links to your social media or online ordering/booking pages',
+    '  - Any websites whose look you like',
+    '',
+    "Don't have some of that? No problem — we can start without it.",
+    '',
+    'No payment is due to get started.',
+    '',
+    'Talk soon,',
+    'Get Website Online',
+    '(908) 342-0521',
+    'https://getwebsiteonline.com',
+  ];
+
+  await mailTransporter.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to: sanitizeHeaderValue(submission.email),
+    replyTo: CONTACT_TO_EMAIL,
+    subject: `Thanks! We've got your website request`,
+    text: lines.join('\n'),
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.6; color: #1a2430;">
+        <p>Hi ${escapeHtml(firstName)},</p>
+        <p>Thanks for reaching out about a website for <strong>${escapeHtml(submission.business)}</strong>.
+        We've got your request and we'll follow up personally within one business day with next steps and a timeline.</p>
+        <p><strong>To get started faster, just reply to this email with anything you already have:</strong></p>
+        <ul>
+          <li>Your logo (any format is fine)</li>
+          <li>Photos of your business, work, team, or products</li>
+          <li>Business hours and address, if they should appear on the site</li>
+          <li>Links to your social media or online ordering/booking pages</li>
+          <li>Any websites whose look you like</li>
+        </ul>
+        <p>Don't have some of that? No problem &mdash; we can start without it.</p>
+        <p>No payment is due to get started.</p>
+        <p>Talk soon,<br />
+        <strong>Get Website Online</strong><br />
+        <a href="tel:+19083420521">(908) 342-0521</a><br />
+        <a href="https://getwebsiteonline.com">getwebsiteonline.com</a></p>
+      </div>
+    `,
+  });
+  console.log('Confirmation email sent to', submission.email);
+}
+
 // The site is hosted on Netlify; this server only serves the API. Allow the
 // production frontend origins plus anything set via ALLOWED_ORIGINS env var.
 const DEFAULT_ALLOWED_ORIGINS = [
@@ -183,17 +243,26 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     return res.status(500).json({ ok: false, error: 'Something went wrong. Please try again.' });
   }
 
-  try {
-    await sendNotificationEmail({
-      name: body.name.trim(),
-      email: body.email.trim(),
-      business: body.business.trim(),
-      phone: body.phone ? body.phone.trim() : '',
-      pages: (body.pages || '').toString().trim(),
-      details: body.details.trim(),
-    });
-  } catch (err) {
-    console.error('Failed to send notification email:', err.message);
+  // Email failures must not fail the request: the submission is already saved.
+  const mail = {
+    name: body.name.trim(),
+    email: body.email.trim(),
+    business: body.business.trim(),
+    phone: body.phone ? body.phone.trim() : '',
+    pages: (body.pages || '').toString().trim(),
+    details: body.details.trim(),
+  };
+
+  const [notification, confirmation] = await Promise.allSettled([
+    sendNotificationEmail(mail),
+    sendClientConfirmationEmail(mail),
+  ]);
+
+  if (notification.status === 'rejected') {
+    console.error('Failed to send notification email:', notification.reason.message);
+  }
+  if (confirmation.status === 'rejected') {
+    console.error('Failed to send confirmation email:', confirmation.reason.message);
   }
 
   return res.status(200).json({ ok: true });
